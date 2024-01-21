@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+
+    #video-container {
+      width: 640px;
+      height: 360px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="video-container"></div>
+
+  <script>
+    // This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var players = []; // Array to store multiple players
+
+    function onYouTubeIframeAPIReady() {
+      createPlayer('video-container', 'M7lc1UVf-VE'); // Initial video
+      createPlayer('video-container', 'your_second_video_id'); // Add more videos by calling createPlayer with different IDs
+    }
+
+    function createPlayer(containerId, videoId) {
+      var player = new YT.Player(containerId, {
+        height: '360',
+        width: '640',
+        videoId: videoId,
+        playerVars: {
+          'playsinline': 1
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+      players.push(player); // Add player to the array
+    }
+
+    function onPlayerReady(event) {
+      event.target.playVideo();
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING) {
+        setTimeout(stopAllVideos, 6000);
+      }
+    }
+
+    function stopAllVideos() {
+      players.forEach(function (player) {
+        player.stopVideo();
+      });
+    }
+  </script>
+</body>
+
+  </html>
+  
