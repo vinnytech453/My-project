@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Web App Example</title>
+</head>
+<body>
+
+  <h1>People List</h1>
+
+  <ul id="peopleList"></ul>
+
+  <script>
+    // Fetch data from JSON file
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+        // Access the people array in JSON
+        const people = data.people;
+
+        // Display each person in an unordered list
+        const peopleListElement = document.getElementById('peopleList');
+        people.forEach(person => {
+          const listItem = document.createElement('li');
+          listItem.textContent = `${person.name}, ${person.age} years old`;
+          peopleListElement.appendChild(listItem);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+
+</body>
+</html>
